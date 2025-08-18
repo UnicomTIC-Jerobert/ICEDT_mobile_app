@@ -1,6 +1,57 @@
 import { Level } from '../types/level';
 import API_BASE_URL from './apiClient';
 
+const levels: Level[] =[
+    {
+        "levelId": 1,
+        "levelName": "மழலையர் நிலை",
+        "slug": "malayalar-nilai",
+        "sequenceOrder": 1,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 2,
+        "levelName": "சிறுவர் நிலை",
+        "slug": "siruvar-nilai",
+        "sequenceOrder": 2,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 3,
+        "levelName": "ஆண்டு 01",
+        "slug": "aandu-01",
+        "sequenceOrder": 3,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 4,
+        "levelName": "ஆண்டு 02",
+        "slug": "aandu-02",
+        "sequenceOrder": 4,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 5,
+        "levelName": "ஆண்டு 03",
+        "slug": "aandu-03",
+        "sequenceOrder": 5,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 6,
+        "levelName": "ஆண்டு 04",
+        "slug": "aandu-04",
+        "sequenceOrder": 6,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 7,
+        "levelName": "ஆண்டு 05",
+        "slug": "aandu-05",
+        "sequenceOrder": 7,
+        "coverImageUrl": null
+    }
+]
 
 /**
  * Fetches all available levels from the backend API.
@@ -20,24 +71,7 @@ export const getAll = async (): Promise<Level[]> => {
     //     return []; 
     // }
 
-    try {
-        // Fetch the local JSON file from the public directory
-        const response = await fetch('/levels.json');
-
-        if (!response.ok) {
-            // Handle file not found (404) or other fetch errors
-            throw new Error(`Failed to fetch levels.json. Status: ${response.status}`);
-        }
-
-        // The rest of the logic is the same
-        return await response.json();
-
-    } catch (error) {
-        console.error("Error in levelApi.getAll:", error);
-        // Return an empty array so the UI can handle the "no levels" state
-        return [];
-    }
-};
+   return levels;};
 
 /**
  * Fetches a single level by its ID.
