@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as lessonApi from '../../api/lessonApi';
@@ -27,18 +27,21 @@ const LessonsScreen = () => {
     }, [levelId]);
 
     const renderLessonItem = ({ item, index }: { item: Lesson, index: number }) => (
-        <TouchableOpacity style={styles.lessonRow}>
-             <View style={styles.iconContainer}>
-                <Image source={{ uri: item.lessonImageUrl || `https://picsum.photos/seed/${item.lessonId}/100` }} style={styles.lessonIcon} />
-            </View>
-            <View style={styles.textContainer}>
-                 <Text style={styles.lessonIndex}>{index + 1}</Text>
-                 <Text style={styles.lessonName}>{item.lessonName}</Text>
-            </View>
-            <View style={styles.arrowContainer}>
-                <Text style={styles.arrow}>▶</Text>
-            </View>
-        </TouchableOpacity>
+        // Wrap the TouchableOpacity with a Link component
+        <Link href={`/lessonDetails?lessonId=${item.lessonId}`} asChild>
+            <TouchableOpacity style={styles.lessonRow}>
+                <View style={styles.iconContainer}>
+                    <Image source={{ uri: item.lessonImageUrl || `https://picsum.photos/seed/${item.lessonId}/100` }} style={styles.lessonIcon} />
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.lessonIndex}>{index + 1}</Text>
+                    <Text style={styles.lessonName}>{item.lessonName}</Text>
+                </View>
+                <View style={styles.arrowContainer}>
+                    <Text style={styles.arrow}>▶</Text>
+                </View>
+            </TouchableOpacity>
+        </Link>
     );
 
     if (isLoading) {
