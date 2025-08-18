@@ -1,0 +1,51 @@
+[
+    {
+        "levelId": 1,
+        "levelName": "மழலையர் நிலை",
+        "slug": "malayalar-nilai",
+        "sequenceOrder": 1,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 2,
+        "levelName": "சிறுவர் நிலை",
+        "slug": "siruvar-nilai",
+        "sequenceOrder": 2,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 3,
+        "levelName": "ஆண்டு 01",
+        "slug": "aandu-01",
+        "sequenceOrder": 3,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 4,
+        "levelName": "ஆண்டு 02",
+        "slug": "aandu-02",
+        "sequenceOrder": 4,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 5,
+        "levelName": "ஆண்டு 03",
+        "slug": "aandu-03",
+        "sequenceOrder": 5,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 6,
+        "levelName": "ஆண்டு 04",
+        "slug": "aandu-04",
+        "sequenceOrder": 6,
+        "coverImageUrl": null
+    },
+    {
+        "levelId": 7,
+        "levelName": "ஆண்டு 05",
+        "slug": "aandu-05",
+        "sequenceOrder": 7,
+        "coverImageUrl": null
+    }
+]
