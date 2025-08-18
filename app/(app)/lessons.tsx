@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.lightGreen,
+        paddingTop: 120, 
+        paddingHorizontal: SIZES.padding,
     },
     centered: {
         flex: 1,

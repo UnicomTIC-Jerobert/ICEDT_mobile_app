@@ -1,9 +1,9 @@
 import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import * as levelApi from '../../api/levelApi'; // You will create this api service
+import * as levelApi from '../../api/levelApi';
 import { COLORS, FONTS, SIZES } from '../../constants/Theme';
-import { Level } from '../../types/level'; // You will create these types
+import { Level } from '../../types/level';
 
 const LevelsScreen = () => {
     const [levels, setLevels] = useState<Level[]>([]);
@@ -13,7 +13,6 @@ const LevelsScreen = () => {
         const fetchLevels = async () => {
             try {
                 const data = await levelApi.getAll();
-                console.log(data);
                 setLevels(data);
             } catch (error) {
                 console.error(error);
@@ -28,7 +27,7 @@ const LevelsScreen = () => {
         <Link href={`/lessons?levelId=${item.levelId}&levelName=${item.levelName}`} asChild>
             <TouchableOpacity style={styles.levelCard}>
                 <Image
-                    source={{ uri: item.coverImageUrl || 'https://via.placeholder.com/150' }} // Use a placeholder
+                    source={{ uri: item.coverImageUrl || 'https://via.placeholder.com/150' }}
                     style={styles.levelImage}
                 />
                 <Text style={styles.levelName}>{item.levelName}</Text>
@@ -49,7 +48,8 @@ const LevelsScreen = () => {
                 data={levels}
                 renderItem={renderLevelItem}
                 keyExtractor={(item) => item.levelId.toString()}
-                numColumns={3} // Adjust number of columns for landscape
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.listContainer}
             />
         </View>
@@ -60,7 +60,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.lightYellow,
-        padding: SIZES.padding,
+        paddingTop: 50,
+        paddingHorizontal: 80,
+        paddingBottom: SIZES.padding,
+        alignItems: 'center',
     },
     centered: {
         flex: 1,
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
         padding: SIZES.base * 2,
         margin: SIZES.base,
         alignItems: 'center',
-        width: SIZES.width / 4, // Adjust width based on numColumns
+        width: SIZES.width / 4,
         elevation: 3,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
