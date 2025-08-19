@@ -14,4 +14,5 @@ export interface Lesson {
   exerciseContent?: string;
   soundUrl?: string;
   videoUrl?: string;
+  activities: any[]; // Replace 'any' with a proper Activity type if available
 }

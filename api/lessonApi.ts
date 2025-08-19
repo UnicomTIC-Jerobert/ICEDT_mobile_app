@@ -1,72 +1,136 @@
 import { Lesson } from "../types/lesson";
 
-// --- MOCK DATA ---
 const allLessons: Lesson[] = [
-  // Level 1: Has a mix of options
+  // Level 1, Lesson 101: Now has an MCQ activity
   {
     lessonId: 101,
     levelId: 1,
     lessonName: "எழுத்துக்கள் (Letters)",
     lessonImageUrl: "https://picsum.photos/seed/l101/100",
+    // The old content fields can still exist
     learnContent: "This is the learning content for Letters.",
-    exerciseContent: "This is the exercise for Letters.",
-    soundUrl: "path/to/letters_sound.mp3",
-    videoUrl: "path/to/letters_video.mp4",
+    // NEW activities array
+    activities: [
+      {
+        id: 1,
+        title: "Letter Recognition",
+        activityType: "MCQ",
+        content: {
+          type: "MCQ",
+          question: "Which one is the letter 'ஆ'?",
+          choices: [
+            { id: "c1", text: "அ", isCorrect: false },
+            { id: "c2", text: "ஆ", isCorrect: true },
+            { id: "c3", text: "இ", isCorrect: false },
+            { id: "c4", text: "ஈ", isCorrect: false },
+          ],
+        },
+      },
+    ],
     description: null,
-    sequenceOrder: 0,
+    sequenceOrder: 1,
   },
+  // Level 1, Lesson 102: Also has an MCQ activity
   {
     lessonId: 102,
     levelId: 1,
     lessonName: "எண்கள் (Numbers)",
     lessonImageUrl: "https://picsum.photos/seed/l102/100",
     learnContent: "This is the learning content for Numbers.",
-    exerciseContent: "This is the exercise for Numbers.",
+    activities: [
+      {
+        id: 2,
+        title: "Number Matching",
+        activityType: "MCQ",
+        content: {
+          type: "MCQ",
+          question: "What is the number for 'இரண்டு'?",
+          choices: [
+            { id: "c1", text: "1", isCorrect: false },
+            { id: "c2", text: "3", isCorrect: false },
+            { id: "c3", text: "2", isCorrect: true },
+          ],
+        },
+      },
+      {
+        id: 2, // Make sure ID is unique
+        title: "Letter Recognition 2",
+        activityType: "MCQ",
+        content: {
+          type: "MCQ",
+          question: "What is the first letter of 'அம்மா'?",
+          choices: [
+            { id: "c1", text: "ஆ", isCorrect: false },
+            { id: "c2", text: "அ", isCorrect: true },
+            { id: "c3", text: "உ", isCorrect: false },
+          ],
+        },
+      },
+      {
+        id: 3, // Make sure ID is unique
+        title: "Letter Recognition 3",
+        activityType: "MCQ",
+        content: {
+          type: "MCQ",
+          question: "What is the first letter of 'அம்மா'?",
+          choices: [
+            { id: "c1", text: "ஆ", isCorrect: false },
+            { id: "c2", text: "அ", isCorrect: true },
+            { id: "c3", text: "உ", isCorrect: false },
+          ],
+        },
+      },
+    ],
     description: null,
-    sequenceOrder: 0,
-    // No sound or video for this lesson
+    sequenceOrder: 2,
   },
+  // Level 1, Lesson 103: This lesson has NO activities, so it won't be clickable.
   {
     lessonId: 103,
     levelId: 1,
     lessonName: "நிறங்கள் (Colors)",
     lessonImageUrl: "https://picsum.photos/seed/l103/100",
     learnContent: "This is the learning content for Colors.",
-    videoUrl: "path/to/colors_video.mp4",
+    activities: [],
     description: null,
-    sequenceOrder: 0,
-    // No exercise or sound
-  },
-
-  // Level 3: Has all options for the first lesson
-  {
-    lessonId: 301,
-    levelId: 3,
-    lessonName: "பாடம் 1: உயிர் எழுத்துக்கள்",
-    lessonImageUrl: "https://picsum.photos/seed/l301/100",
-    learnContent: "This is the learning content for Vowels.",
-    exerciseContent: "This is the exercise for Vowels.",
-    soundUrl: "path/to/vowels_sound.mp3",
-    videoUrl: "path/to/vowels_video.mp4",
-    description: null,
-    sequenceOrder: 0,
-  },
-  {
-    lessonId: 302,
-    levelId: 3,
-    lessonName: "பாடம் 2: மெய் எழுத்துக்கள்",
-    lessonImageUrl: "https://picsum.photos/seed/l302/100",
-    learnContent: "This is the learning content for Consonants.",
-    exerciseContent: "This is the exercise for Consonants.",
-    description: null,
-    sequenceOrder: 0,
+    sequenceOrder: 3,
   },
 ];
 
-/**
- * Fetches all lessons for a specific level ID.
- * (No changes needed here, it will just return the new data structure)
- */
+// export const getLessonById = async (
+//   lessonId: string | number
+// ): Promise<Lesson | null> => {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}/lessons/${lessonId}`);
+//     if (!response.ok) {
+//       throw new Error(`Failed to fetch lesson with ID ${lessonId}.`);
+//     }
+
+//     const data = await response.json(); // only call once
+//     return data.result ?? null; // unwrap the result object
+//   } catch (error) {
+//     console.error(`Error fetching lesson ID ${lessonId}:`, error);
+//     return null;
+//   }
+// };
+
+// export const getLessonsByLevelId = async (
+//   levelId: string | number
+// ): Promise<Lesson[]> => {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}/levels/${levelId}/lessons`);
+//     if (!response.ok) {
+//       throw new Error(`Failed to fetch lessons for level ID ${levelId}.`);
+//     }
+
+//     const data = await response.json(); // only call once
+//     return data.result ?? []; // unwrap the result array
+//   } catch (error) {
+//     console.error(`Error fetching lessons for level ${levelId}:`, error);
+//     return [];
+//   }
+// };
+
 export const getLessonsByLevelId = async (
   levelId: string | number
 ): Promise<Lesson[]> => {
@@ -79,7 +143,6 @@ export const getLessonsByLevelId = async (
 
 /**
  * Fetches a single lesson by its ID.
- * (No changes needed here, it will find and return the full lesson object)
  */
 export const getLessonById = async (
   lessonId: string | number
