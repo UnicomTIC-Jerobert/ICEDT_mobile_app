@@ -11,7 +11,7 @@ const HamburgerIcon = () => <Text style={styles.hamburgerIcon}>☰</Text>;
 const CloseIcon = () => <Text style={styles.closeIcon}>✕</Text>;
 
 // --- Constants ---
-const MENU_WIDTH = 250;
+const MENU_WIDTH = 180;
 const ANIMATION_DURATION = 250;
 
 const AppLayout = () => {
@@ -76,7 +76,7 @@ const AppLayout = () => {
             </Animated.View>
 
             <TouchableOpacity onPress={toggleMenu} style={styles.hamburgerButton}>
-                <HamburgerIcon />
+                {!isMenuOpen && <HamburgerIcon />}
             </TouchableOpacity>
         </View>
     );
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
     hamburgerButton: {
         position: 'absolute',
-        top: 40,
+        top: 25,
         left: 15,
         zIndex: 100,
         padding: 10,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         position: 'absolute',
-        top: 40,
+        top: 25,
         right: 15,
         padding: 10,
     },

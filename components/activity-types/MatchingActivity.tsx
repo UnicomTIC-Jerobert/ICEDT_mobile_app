@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Button, Grid } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { MatchingContent, MatchItem } from '../../../types/activityContentTypes';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { COLORS, FONTS, SIZES } from '../../constants/Theme';
+import { MatchingContent, MatchItem } from '../../types/activity';
 
 interface MatchingActivityProps {
     content: MatchingContent;
@@ -11,106 +11,180 @@ interface MatchingActivityProps {
 const MatchingActivity: React.FC<MatchingActivityProps> = ({ content }) => {
     const [selectedA, setSelectedA] = useState<MatchItem | null>(null);
     const [selectedB, setSelectedB] = useState<MatchItem | null>(null);
-    const [correctPairs, setCorrectPairs] = useState<string[]>([]); // Stores IDs of correctly matched items
+    const [correctPairs, setCorrectPairs] = useState<string[]>([]);
 
-    // This effect checks for a match whenever the user selects one item from each column
+    // This core logic is identical to the web version
     useEffect(() => {
         if (selectedA && selectedB) {
             if (selectedA.matchId === selectedB.id) {
-                // Correct match!
                 setCorrectPairs(prev => [...prev, selectedA.id, selectedB.id]);
             }
-            // Reset selections after a short delay to give user feedback
             setTimeout(() => {
                 setSelectedA(null);
                 setSelectedB(null);
-            }, 300);
+            }, 300); // Short delay for user feedback
         }
     }, [selectedA, selectedB]);
 
     const handleItemClick = (item: MatchItem, column: 'A' | 'B') => {
-        // Don't allow clicking an already matched item
         if (correctPairs.includes(item.id)) return;
-
         if (column === 'A') {
             setSelectedA(item);
         } else {
             setSelectedB(item);
         }
     };
-    
-    const isComplete = correctPairs.length === content.columnA.length + content.columnB.length;
 
     const handleReset = () => {
         setSelectedA(null);
         setSelectedB(null);
         setCorrectPairs([]);
     };
+    
+    const isComplete = correctPairs.length > 0 && correctPairs.length === content.columnA.length + content.columnB.length;
 
-    // Helper function to render a single item button
-    const renderItem = (item: MatchItem, column: 'A' | 'B', isSelected: boolean) => {
+    // Helper function to get dynamic styles for each button
+    const getItemStyles = (item: MatchItem, isSelected: boolean) => {
         const isCorrect = correctPairs.includes(item.id);
-        
-        let variant: "contained" | "outlined" = "outlined";
-        if (isCorrect) variant = "contained";
-        else if (isSelected) variant = "contained";
-        
-        let color: "success" | "primary" = "primary";
-        if(isCorrect) color = "success";
-
-        return (
-            <Button
-                key={item.id}
-                variant={variant}
-                color={color}
-                onClick={() => handleItemClick(item, column)}
-                disabled={isCorrect}
-                fullWidth
-                sx={{ 
-                    my: 1, 
-                    height: '60px', 
-                    textTransform: 'none',
-                    justifyContent: 'center',
-                    fontSize: '1rem',
-                }}
-            >
-                {item.content}
-            </Button>
-        );
-    }
+        if (isCorrect) {
+            return { container: [styles.itemButton, styles.correctButton], text: styles.correctText };
+        }
+        if (isSelected) {
+            return { container: [styles.itemButton, styles.selectedButton], text: styles.selectedText };
+        }
+        return { container: styles.itemButton, text: styles.itemText };
+    };
 
     return (
-        <Box p={2} sx={{ fontFamily: 'sans-serif' }}>
+        <View style={styles.container}>
             {content.title && (
-                <Typography variant="h6" textAlign="center" mb={3}>{content.title}</Typography>
+                <Text style={styles.title}>{content.title}</Text>
             )}
 
-            <Grid container spacing={4} justifyContent="center" alignItems="center">
+            <View style={styles.columnsContainer}>
                 {/* Column A */}
-                <Grid size={{xs:5}} >
-                    {content.columnA.map(item => renderItem(item, 'A', selectedA?.id === item.id))}
-                </Grid>
+                <View style={styles.column}>
+                    {content.columnA.map(item => {
+                        const { container, text } = getItemStyles(item, selectedA?.id === item.id);
+                        return (
+                            <TouchableOpacity key={item.id} style={container} onPress={() => handleItemClick(item, 'A')} disabled={correctPairs.includes(item.id)}>
+                                <Text style={text}>{item.content}</Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+                </View>
                 {/* Column B */}
-                <Grid size={{xs:5}}>
-                    {content.columnB.map(item => renderItem(item, 'B', selectedB?.id === item.id))}
-                </Grid>
-            </Grid>
+                <View style={styles.column}>
+                    {content.columnB.map(item => {
+                        const { container, text } = getItemStyles(item, selectedB?.id === item.id);
+                        return (
+                            <TouchableOpacity key={item.id} style={container} onPress={() => handleItemClick(item, 'B')} disabled={correctPairs.includes(item.id)}>
+                                <Text style={text}>{item.content}</Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+                </View>
+            </View>
 
             {isComplete && (
-                <Box textAlign="center" mt={4}>
-                    <Typography variant="h5" color="success.main" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                        <CheckCircleIcon /> All Matched!
-                    </Typography>
-                </Box>
+                <View style={styles.completeContainer}>
+                    <Icon name="check-circle" size={30} color={COLORS.primaryGreen} />
+                    <Text style={styles.completeText}>All Matched!</Text>
+                </View>
             )}
             
-             <Box textAlign="center" mt={4}>
-                <Button variant="outlined" startIcon={<ReplayIcon />} onClick={handleReset}>
-                    Reset
-                </Button>
-            </Box>
-        </Box>
+             <View style={styles.resetContainer}>
+                <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
+                    <Icon name="replay" size={20} color={COLORS.buttonBlue} />
+                    <Text style={styles.resetText}>Reset</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 };
+
+// --- STYLESHEET FOR REACT NATIVE ---
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: SIZES.padding,
+        alignItems: 'center',
+        backgroundColor: '#f9f9f9',
+    },
+    title: {
+        ...FONTS.h2,
+        color: COLORS.textDark,
+        marginBottom: SIZES.padding * 2,
+    },
+    columnsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        flex: 1, // Allows columns to take up available vertical space
+    },
+    column: {
+        width: '45%', // Each column takes up 45% of the width
+        alignItems: 'center',
+    },
+    itemButton: {
+        width: '100%',
+        paddingVertical: SIZES.padding * 1.5,
+        marginVertical: SIZES.base,
+        borderRadius: SIZES.radius,
+        borderWidth: 2,
+        borderColor: COLORS.buttonBlue,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: COLORS.white,
+    },
+    itemText: {
+        ...FONTS.h3,
+        color: COLORS.buttonBlue,
+    },
+    selectedButton: {
+        backgroundColor: COLORS.buttonBlue,
+    },
+    selectedText: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    correctButton: {
+        backgroundColor: COLORS.primaryGreen,
+        borderColor: COLORS.primaryGreen,
+        opacity: 0.8,
+    },
+    correctText: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    completeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: SIZES.padding,
+    },
+    completeText: {
+        ...FONTS.h2,
+        color: COLORS.primaryGreen,
+        marginLeft: SIZES.base,
+    },
+    resetContainer: {
+        marginTop: SIZES.padding,
+    },
+    resetButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: SIZES.base,
+        paddingHorizontal: SIZES.padding * 2,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: COLORS.buttonBlue,
+    },
+    resetText: {
+        ...FONTS.body2,
+        color: COLORS.buttonBlue,
+        marginLeft: SIZES.base,
+    },
+});
 
 export default MatchingActivity;

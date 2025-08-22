@@ -166,8 +166,39 @@ const LessonsScreen = () => {
         const hasActivities = item.activities && item.activities.length > 0;
 
         if (hasActivities) {
+            // return (
+            //     <Link href={`/activity?lessonId=${item.lessonId}`} asChild>
+            //         <TouchableOpacity style={styles.lessonRow}>
+            //             <View style={styles.iconContainer}>
+            //                 <Image source={{ uri: item.lessonImageUrl || `https://picsum.photos/seed/${item.lessonId}/100` }} style={styles.lessonIcon} />
+            //             </View>
+            //             <View style={styles.textContainer}>
+            //                 <Text style={styles.lessonIndex}>{index + 1}</Text>
+            //                 <Text style={styles.lessonName} numberOfLines={1}>{item.lessonName}</Text>
+            //             </View>
+            //             <View style={styles.arrowContainer}>
+            //                 <Text style={styles.arrow}>▶</Text>
+            //             </View>
+            //         </TouchableOpacity>
+            //     </Link>
+            // );
+
             return (
-                <Link href={`/activity?lessonId=${item.lessonId}`} asChild>
+                // <Link href={`/allActivities`} asChild>
+                //     <TouchableOpacity style={styles.lessonRow}>
+                //         <View style={styles.iconContainer}>
+                //             <Image source={{ uri: item.lessonImageUrl || `https://picsum.photos/seed/${item.lessonId}/100` }} style={styles.lessonIcon} />
+                //         </View>
+                //         <View style={styles.textContainer}>
+                //             <Text style={styles.lessonIndex}>{index + 1}</Text>
+                //             <Text style={styles.lessonName} numberOfLines={1}>{item.lessonName}</Text>
+                //         </View>
+                //         <View style={styles.arrowContainer}>
+                //             <Text style={styles.arrow}>▶</Text>
+                //         </View>
+                //     </TouchableOpacity>
+                // </Link>
+                <Link href={`/lessonActivities?lessonId=${item.lessonId}`} asChild>
                     <TouchableOpacity style={styles.lessonRow}>
                         <View style={styles.iconContainer}>
                             <Image source={{ uri: item.lessonImageUrl || `https://picsum.photos/seed/${item.lessonId}/100` }} style={styles.lessonIcon} />

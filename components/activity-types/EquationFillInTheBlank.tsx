@@ -4,7 +4,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ReplayIcon from '@mui/icons-material/Replay';
 // Import the REFINED type
-import { SimpleEquationContent } from '../../../types/activityContentTypes';
+import { SimpleEquationContent } from '../../types/activityContentTypes';
 
 interface EquationProps {
     content: SimpleEquationContent;

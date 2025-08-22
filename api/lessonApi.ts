@@ -3,7 +3,7 @@ import { Lesson } from "../types/lesson";
 const allLessons: Lesson[] = [
   // Level 1, Lesson 101: Now has an MCQ activity
   {
-    lessonId: 101,
+    lessonId: 21,
     levelId: 1,
     lessonName: "எழுத்துக்கள் (Letters)",
     lessonImageUrl: "https://picsum.photos/seed/l101/100",

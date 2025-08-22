@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { 
-    Box, Typography, Paper, Button, FormControl, Select, MenuItem, SelectChangeEvent 
-} from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { DropdownCompletionContent, DropdownBlank } from '../../../types/activityContentTypes';
+import {
+    Box,
+    Button, FormControl,
+    MenuItem,
+    Paper,
+    Select,
+    SelectChangeEvent,
+    Typography
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { DropdownBlank, DropdownCompletionContent } from '../../types/activityContentTypes';
 
 interface DropdownProps {
     content: DropdownCompletionContent;
@@ -40,7 +46,7 @@ const DropdownCompletion: React.FC<DropdownProps> = ({ content }) => {
     const renderSentence = (sentence: DropdownBlank) => {
         const userAnswer = answers[sentence.id];
         const isCorrect = userAnswer === sentence.correctAnswer;
-        
+
         let selectStyle = {};
         if (isComplete) {
             selectStyle = {
@@ -55,7 +61,7 @@ const DropdownCompletion: React.FC<DropdownProps> = ({ content }) => {
         return (
             <Box key={sentence.id} display="flex" alignItems="center" my={2.5} flexWrap="wrap">
                 <Typography variant="h6" component="span" sx={{ mr: 2 }}>{sentence.prefix}</Typography>
-                
+
                 <FormControl variant="outlined" size="small" sx={{ minWidth: 150, ...selectStyle }}>
                     <Select
                         value={userAnswer || ''}
@@ -69,17 +75,17 @@ const DropdownCompletion: React.FC<DropdownProps> = ({ content }) => {
                         ))}
                     </Select>
                 </FormControl>
-                
+
                 <Typography variant="h6" component="span" sx={{ ml: 2 }}>{sentence.suffix}</Typography>
 
-                {isComplete && (isCorrect ? 
-                    <CheckCircleIcon color="success" sx={{ ml: 1 }} /> : 
+                {isComplete && (isCorrect ?
+                    <CheckCircleIcon color="success" sx={{ ml: 1 }} /> :
                     <CancelIcon color="error" sx={{ ml: 1 }} />
                 )}
             </Box>
         );
     };
-    
+
     return (
         <Box p={3} sx={{ fontFamily: 'sans-serif' }}>
             <Typography variant="h5" textAlign="center" mb={2}>{content.title}</Typography>
@@ -87,7 +93,7 @@ const DropdownCompletion: React.FC<DropdownProps> = ({ content }) => {
             <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
                 {content.sentences.map(renderSentence)}
             </Paper>
-            
+
             <Box textAlign="center" mt={4}>
                 {!isComplete ? (
                     <Button variant="contained" size="large" onClick={handleCheckAnswers}>Check Answers</Button>
@@ -95,9 +101,9 @@ const DropdownCompletion: React.FC<DropdownProps> = ({ content }) => {
                     <Button variant="outlined" size="large" startIcon={<ReplayIcon />} onClick={handleReset}>Try Again</Button>
                 )}
             </Box>
-            
+
             {isComplete && (
-                 <Typography variant="h5" color={isAllCorrect ? 'success.main' : 'error.main'} textAlign="center" mt={2}>
+                <Typography variant="h5" color={isAllCorrect ? 'success.main' : 'error.main'} textAlign="center" mt={2}>
                     {isAllCorrect ? 'All Correct!' : 'Some answers are incorrect. Please review.'}
                 </Typography>
             )}
